@@ -14,13 +14,15 @@ Information Exchange: Securely transmit information between parties, verifying t
 
 More details: https://jwt.io
 
-### Server Side: Spring Boot
-
-Spring Boot is excellent for creating RESTful services. On the server side, the JWT signing is done in the /api/authentication REST call in AuthProviderService (the class that implements the AuthenticationProvider from Spring Security).  In addition, it has an H2 database containing 2 users (username: admin; pass: admin/username: tomcat; pass: tomcat).  The api/user REST call in  UserController returns the user data, if the user is already authenticated.
-
-The verification is done in the Filter (JwtAuthenticationTokenFilter).  It filters every request different from  /api/authentication and api/user. If a correct token isn't found, a 401 HTTP response is returned.  If a correct token is found, the Authentication object is added to the Spring Security Context  and can be used in any REST endpoint (as shown in UserController).
-
-The JWT signing is done by an excellent Java JWT library (https://github.com/jwtk/jjwt).
+Server Side: Spring Boot
+JWT signing is handled in /api/authentication via AuthProviderService.
+Uses an SQL database (MySQL, PostgreSQL, etc.) for storing users and data.
+Example users for testing:
+username: admin / password: admin
+username: user / password: user
+/api/user returns user data if authenticated.
+Token verification is done via JwtAuthenticationTokenFilter. Requests without a valid token return HTTP 401. Valid tokens are added to the Spring Security Context.
+JWT implementation uses JJWT library.
 
 
 ### Client Side: ReactJS
